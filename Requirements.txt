@@ -1,0 +1,3 @@
+NumPy -- Latest Version
+OpenCV --Latest version
+An IDE to test and run cases(I have used spyder Anaconda)
