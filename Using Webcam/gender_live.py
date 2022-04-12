@@ -10,20 +10,18 @@ import cv2
 import numpy as np
 
 
-# The gender model architecture
-# https://drive.google.com/open?id=1W_moLzMlGiELyPxWiYQJ9KFaXroQ_NFQ
+
 GENDER_MODEL = 'weights/deploy_gender.prototxt'
-# The gender model pre-trained weights
-# https://drive.google.com/open?id=1AW3WduLk1haTVAxHOkVS_BEzel1WXQHP
+
 GENDER_PROTO = 'weights/gender_net.caffemodel'
 # Each Caffe Model impose the shape of the input image also image preprocessing is required like mean
 # substraction to eliminate the effect of illunination changes
 MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
 # Represent the gender classes
 GENDER_LIST = ['Male', 'Female']
-# https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
+
 FACE_PROTO = "weights/deploy.prototxt.txt"
-# https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel
+
 FACE_MODEL = "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel"
 
 # load face Caffe model
@@ -75,7 +73,6 @@ def get_optimal_font_scale(text, width):
             return scale/10
     return 1
 
-# from: https://stackoverflow.com/questions/44650888/resize-an-image-without-distortion-opencv
 def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
     # initialize the dimensions of the image to be resized and
     # grab the image size
@@ -120,11 +117,7 @@ def predict_gender():
         # for idx, face in enumerate(faces):
         for i, (start_x, start_y, end_x, end_y) in enumerate(faces):
             face_img = frame[start_y: end_y, start_x: end_x]
-            # image --> Input image to preprocess before passing it through our dnn for classification.
-            # scale factor = After performing mean substraction we can optionally scale the image by some factor. (if 1 -> no scaling)
-            # size = The spatial size that the CNN expects. Options are = (224*224, 227*227 or 299*299)
-            # mean = mean substraction values to be substracted from every channel of the image.
-            # swapRB=OpenCV assumes images in BGR whereas the mean is supplied in RGB. To resolve this we set swapRB to True.
+            
             blob = cv2.dnn.blobFromImage(image=face_img, scalefactor=1.0, size=(
                 227, 227), mean=MODEL_MEAN_VALUES, swapRB=False, crop=False)
             # Predict Gender
@@ -149,13 +142,11 @@ def predict_gender():
 
             # Display processed image
         
-        # frame = cv2.resize(frame, (frame_height, frame_width))
+      
         cv2.imshow("Gender Estimator", frame)
         if cv2.waitKey(1) == ord("q"):
             break
-        # uncomment if you want to save the image
-        # cv2.imwrite("output.jpg", frame)
-        # Cleanup
+        
     cv2.destroyAllWindows()
 
 
